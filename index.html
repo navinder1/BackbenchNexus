@@ -485,6 +485,39 @@
           <button type="submit" class="btn btn-primary btn-lg" style="width:100%; justify-content:center;">Send message →</button>
           <p class="form-msg" id="formMsg">✓ Message sent! We'll be in touch within one business day.</p>
         </form>
+
+        <script>
+          document.getElementById("contactForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const formData = {
+        name: document.getElementById("cf-name").value,
+        email: document.getElementById("cf-email").value,
+        service: document.getElementById("cf-service").value,
+        message: document.getElementById("cf-message").value
+    };
+
+    try {
+        const response = await fetch("http://localhost:8080/contact/save", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formData)
+        });
+
+        if (response.ok) {
+            document.getElementById("formMsg").style.display = "block";
+            document.getElementById("contactForm").reset();
+        } else {
+            alert("Failed to send message");
+        }
+    } catch (error) {
+        console.error(error);
+        alert("Error occurred");
+    }
+});
+        </script>
       </div>
     </div>
   </section>
